@@ -34,8 +34,11 @@ public class MainScript : MonoBehaviour
     public Text score;
     private int scoreval;
     public Transform water;
+    public GameObject a;
+    public GameObject b;
+    public Text finalscoretext;
 
-    void Start()
+    void Awake()
     {
         theactualplayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, "Background Vid.mp4");
         theactualplayer.Play();
@@ -54,7 +57,6 @@ public class MainScript : MonoBehaviour
         Music.PlayOneShot(GoodMusic[Random.Range(0, GoodMusic.Length)]);
         StartCoroutine(SubAlert());
         StartCoroutine(FoundMatch());
-        StartCoroutine(ScoreMethod());
     }
 
     void Update()
@@ -91,6 +93,8 @@ public class MainScript : MonoBehaviour
                 }
             }
         }
+
+        score.text = scoreval.ToString();
     }
 
     public void SayHi()
@@ -98,6 +102,7 @@ public class MainScript : MonoBehaviour
         if (!miiriovoice.isPlaying)
         {
             miiriovoice.PlayOneShot(hiaudio[Random.Range(0, hiaudio.Length)]);
+            scoreval = scoreval + 1;
         }
     }
 
@@ -112,6 +117,7 @@ public class MainScript : MonoBehaviour
             matchfoundsound.Stop();
             miiriovoice.Stop();
             miiriovoice.PlayOneShot(plugaudio[Random.Range(0, plugaudio.Length)]);
+            scoreval = scoreval + 100;
         } 
     }
 
@@ -123,6 +129,7 @@ public class MainScript : MonoBehaviour
             SubAlertSound.Stop();
             miiriovoice.PlayOneShot(tyaudio[Random.Range(0, tyaudio.Length)]);
             satisfied = true;
+            scoreval = scoreval + 500;
         }  else if (!miiriovoice.isPlaying && !subactive)
         {
             water.localScale = water.localScale - new Vector3(0, 0.02f, 0);
@@ -135,6 +142,7 @@ public class MainScript : MonoBehaviour
         {
             Music.Stop();
             shitmusicplaying = false;
+            scoreval = scoreval + 10;
         } else
         {
             water.localScale = water.localScale - new Vector3(0, 0.01f, 0);
@@ -182,19 +190,22 @@ public class MainScript : MonoBehaviour
         }
     }
 
-    IEnumerator ScoreMethod()
+    public void PlayAgain()
     {
-        while (true){
-            scoreval += 1;
-            score.text = (""+ scoreval);
-            yield return new WaitForSeconds(1);
-        }
-        
+        SceneManager.LoadScene(1);
     }
-        
 
     public void GameOver()
     {
-        SceneManager.LoadScene(0);
+        a.SetActive(false);
+        b.SetActive(true);
+        StopAllCoroutines();
+        Music.Stop();
+        miiriovoice.Stop();
+        matchfoundsound.Stop();
+        SubAlertSound.Stop();
+        finalscoretext.text = scoreval.ToString();
+        Debug.Log("Score :" +scoreval);
+        //SceneManager.LoadScene(0);
     }
 }
