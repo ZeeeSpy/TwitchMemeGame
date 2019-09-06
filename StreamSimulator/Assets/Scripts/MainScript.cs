@@ -206,6 +206,6 @@ public class MainScript : MonoBehaviour
         SubAlertSound.Stop();
         finalscoretext.text = scoreval.ToString();
         Debug.Log("Score :" +scoreval);
-        //SceneManager.LoadScene(0);
+        Cursor.visible = true;
     }
 }
