@@ -50,6 +50,11 @@ public class MainScript : MonoBehaviour
     public GameObject ShopImage;
     public GameObject StuffToDeactive;
 
+    public GameObject Father;
+    public GameObject Combo;
+    public GameObject Jerry;
+    public GameObject Jersey;
+    public GameObject Xbox;
 
     private double multiplier = 1;
     
@@ -296,7 +301,48 @@ public class MainScript : MonoBehaviour
             water.localScale = water.localScale - new Vector3(0, 5, 0);
         }
     }
- 
+
+    public void BuyFather()
+    {
+        if (Buycalculate(2)) { Father.SetActive(true); }
+    }
+
+
+    public void BuyCombo()
+    {
+        if (Buycalculate(2)) { Combo.SetActive(true); }
+    }
+
+
+    public void BuyJerry()
+    {
+        if (Buycalculate(5)) { Jerry.SetActive(true); }
+    }
+
+
+    public void BuyJersey()
+    {
+        if (Buycalculate(100)) { Jersey.SetActive(true); }
+    }
+
+
+    public void BuyXbox()
+    {
+        if (Buycalculate(1000)) { Xbox.SetActive(true); }
+    }
+
+    private bool Buycalculate(int price)
+    {
+        if (scoreval >= price)
+        {
+            scoreval = scoreval - price;
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
 
     private void UpdateShop()
         {
