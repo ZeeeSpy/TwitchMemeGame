@@ -3437,7 +3437,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 11
   m_TargetDisplay: 0
 --- !u!1 &1309941391
 GameObject:
@@ -3947,11 +3947,11 @@ MonoBehaviour:
   ShopStuff: {fileID: 404536021}
   ShopImage: {fileID: 161104916}
   StuffToDeactive: {fileID: 1706825751}
-  Father: {fileID: 0}
-  Combo: {fileID: 0}
-  Jerry: {fileID: 0}
-  Jersey: {fileID: 0}
-  Xbox: {fileID: 0}
+  Father: {fileID: 1458043447}
+  Combo: {fileID: 1592699309}
+  Jerry: {fileID: 851725201}
+  Jersey: {fileID: 1541927331}
+  Xbox: {fileID: 1161918296}
   koreanleveltext: {fileID: 1839579056}
   shopmoney: {fileID: 1309941393}
   multipliertext: {fileID: 589827266}

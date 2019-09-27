@@ -16,6 +16,7 @@ public class MainScript : MonoBehaviour
 
     private AudioClip[] GoodMusic;
     private AudioClip[] ShitMusic;
+    public AudioClip money;
     private bool shitmusicplaying = false;
     private bool subactive = false;
     private bool satisfied = false;
@@ -39,7 +40,7 @@ public class MainScript : MonoBehaviour
     public Text finalscoretext;
 
 
-    private int currenttime = 60;
+    private int currenttime = 30;
     public Text countdowntime;
 
     private bool gameoverstatus = false;
@@ -64,6 +65,7 @@ public class MainScript : MonoBehaviour
 
     private double modval = 1.00;
     private int koreanlvl = 0;
+    private int hi = 0;
 
     void Awake()
     {
@@ -116,14 +118,11 @@ public class MainScript : MonoBehaviour
             }
             else
             {
-                if (!miiriovoice.isPlaying)
-                {
                     water.localScale = water.localScale - new Vector3(0, 0.001f, 0);
                     if (water.localScale.y < 0)
                     {
                         GameOver();
                     }
-                }
             }
 
             score.text = scoreval.ToString();
@@ -137,7 +136,12 @@ public class MainScript : MonoBehaviour
     {
         if (!miiriovoice.isPlaying)
         {
-            miiriovoice.PlayOneShot(hiaudio[Random.Range(0, hiaudio.Length)]);
+            miiriovoice.PlayOneShot(hiaudio[hi]);
+            hi++;
+            if (hi >= hiaudio.Length)
+            {
+                hi = 0;
+            }
             scoreval = scoreval + (0.50*multiplier);
         }
     }
@@ -227,7 +231,7 @@ public class MainScript : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(5, 21));
+            yield return new WaitForSeconds(Random.Range(5, 15));
             matchfound.sprite = characters[Random.Range(0, characters.Length)];
             matchfoundobject.SetActive(true);
             matchfound.enabled = true;
@@ -269,7 +273,7 @@ public class MainScript : MonoBehaviour
         ShopImage.SetActive(false);
         StuffToDeactive.SetActive(true);
 
-        currenttime = 60;
+        currenttime = 30;
         score.text = scoreval.ToString();
     }
 
@@ -298,7 +302,8 @@ public class MainScript : MonoBehaviour
         if (scoreval >= 2)
         {
             scoreval = scoreval - 2;
-            water.localScale = water.localScale - new Vector3(0, 5, 0);
+            UpdateShop();
+            water.localScale = new Vector3(2.5f, 5, 1);
         }
     }
 
@@ -336,6 +341,8 @@ public class MainScript : MonoBehaviour
         if (scoreval >= price)
         {
             scoreval = scoreval - price;
+            miiriovoice.PlayOneShot(money);
+            UpdateShop();
             return true;
         } else
         {
