@@ -67,6 +67,11 @@ public class MainScript : MonoBehaviour
     private int koreanlvl = 0;
     private int hi = 0;
 
+    private bool ZeSpy = false;
+    public GameObject zespytext;
+    private bool win = false;
+    public GameObject wintext;
+
     void Awake()
     {
         theactualplayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, "Background Vid.mp4");
@@ -256,11 +261,22 @@ public class MainScript : MonoBehaviour
             StopCoroutine("FoundMatch");
             Music.Stop();
             miiriovoice.Stop();
+            SubAlertSound.Stop();
             matchfoundsound.Stop();
             ShopStuff.SetActive(true);
             ShopImage.SetActive(true);
             StuffToDeactive.SetActive(false);
-            shopmoney.text = scoreval.ToString();
+            shopmoney.text = scoreval.ToString();   
+
+            if (!win)
+            {
+            wintext.SetActive(false);
+            }
+
+            if (!ZeSpy)
+            {
+            zespytext.SetActive(false);
+            }
         }
 
     public void exitshop()
@@ -279,30 +295,27 @@ public class MainScript : MonoBehaviour
 
     public void BuyMod(int a)
     {
-        if (scoreval >= a)
+        if (Buycalculate(a))
         {
-            scoreval = scoreval - a;
-            modval = a*0.05;
+            modval = a;
+            calculatemultiplier();
             UpdateShop();
         }
     }
 
     public void BuyKoreanLesson()
     {
-        if (scoreval >= 25)
+        if (Buycalculate(25))
         {
-            scoreval = scoreval - 25;
             koreanlvl = koreanlvl + 1;
+            calculatemultiplier();
             UpdateShop();
         }
     }
 
     public void RefillBottle()
     {
-        if (scoreval >= 2)
-        {
-            scoreval = scoreval - 2;
-            UpdateShop();
+        if (Buycalculate(2)) {
             water.localScale = new Vector3(2.5f, 5, 1);
         }
     }
@@ -336,6 +349,18 @@ public class MainScript : MonoBehaviour
         if (Buycalculate(1000)) { Xbox.SetActive(true); }
     }
 
+    public void BuyZeSpy()
+    {
+        if (Buycalculate(4000000)) { zespytext.SetActive(true); }
+        ZeSpy = true;
+    }
+
+    public void BuyBandi()
+    {
+        if (Buycalculate(1000000000)) { wintext.SetActive(true); }
+        win = true;
+    }
+
     private bool Buycalculate(int price)
     {
         if (scoreval >= price)
@@ -361,10 +386,10 @@ public class MainScript : MonoBehaviour
 
     private void calculatemultiplier()
     {
-        multiplier = (koreanlvl*0.5)+modval;
+        multiplier = koreanlvl*modval;
         if (multiplier <= 0)
         {
-            multiplier = 0;
+            multiplier = 1;
         }
     }
 
